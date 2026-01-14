@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: "Influsafe® — Digital Exposure & Identity Risk System"
+message: "If you use Influsafe® in your work, please cite it as follows."
+type: software
+authors:
+  - family-names: Samperio
+    given-names: Hector
+    orcid: https://orcid.org/0009-0004-1715-3238
+doi: 10.5281/zenodo.18238918
+url: https://github.com/4rquit3k/4rquit3k
+abstract: >
+  Influsafe® is a scientific-grade preventive digital risk system designed for early detection
+  of digital exposure, impersonation vectors, identity risk and structural reputation vulnerabilities.
+keywords:
+  - digital risk
+  - exposure detection
+  - identity risk
+  - cyber-risk modeling
+  - reputation systems
+license: Proprietary

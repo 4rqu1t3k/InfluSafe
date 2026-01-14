@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>InfluSafe — Diagnóstico de Presencia Digital</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: #e5e7eb;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #38bdf8;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #22c55e;
+      margin-top: 40px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 5px;
+    }
+
+    p.note {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #1e293b;
+      border-radius: 4px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    button {
+      margin-top: 40px;
+      width: 100%;
+      padding: 15px;
+      background: #22c55e;
+      color: #000;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #16a34a;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>InfluSafe</h1>
+  <p class="note">
+    Diagnóstico integral de presencia digital y riesgo.
+    <br>
+    Análisis basado en información pública, datos declarados y criterios profesionales.
+  </p>
+
+  <!-- SECCIÓN 1 -->
+  <h2>1. Identidad digital</h2>
+
+  <label>Nombre / Marca</label>
+  <input id="nombre" type="text">
+
+  <div class="grid">
+    <div>
+      <label>Tipo de perfil</label>
+      <select id="tipo">
+        <option value="influencer">Influencer</option>
+        <option value="empresa">Empresa</option>
+        <option value="figura_publica">Figura pública</option>
+      </select>
+    </div>
+
+    <div>
+      <label>Mercado principal</label>
+      <input id="mercado" type="text" placeholder="México, LATAM, Global">
+    </div>
+  </div>
+
+  <!-- SECCIÓN 2 -->
+  <h2>2. Presencia digital</h2>
+  <p class="note">
+    Se analizan señales públicas visibles y consistencia entre plataformas.
+  </p>
+
+  <label>Instagram</label>
+  <input id="instagram" type="text">
+
+  <label>TikTok</label>
+  <input id="tiktok" type="text">
+
+  <label>YouTube</label>
+  <input id="youtube" type="text">
+
+  <label>Sitio web</label>
+  <input id="web" type="text">
+
+  <!-- SECCIÓN 3 -->
+  <h2>3. Contenido y monetización</h2>
+
+  <div class="grid">
+    <div>
+      <label>¿Monetiza actualmente?</label>
+      <select id="monetiza">
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <div>
+      <label>Rango de seguidores</label>
+      <select id="seguidores">
+        <option value="1k-10k">1k – 10k</option>
+        <option value="10k-50k">10k – 50k</option>
+        <option value="50k-100k">50k – 100k</option>
+        <option value="+100k">+100k</option>
+      </select>
+    </div>
+  </div>
+
+  <label>Tipo principal de monetización</label>
+  <select id="tipo_monetizacion">
+    <option value="colaboraciones">Colaboraciones</option>
+    <option value="venta_directa">Venta directa</option>
+    <option value="afiliados">Afiliados</option>
+    <option value="otro">Otro</option>
+  </select>
+
+  <!-- SECCIÓN 4 -->
+  <h2>4. Historial de riesgo</h2>
+  <p class="note">
+    Información declarada por el cliente para contextualizar el análisis.
+  </p>
+
+  <label>¿Has tenido alguno de los siguientes incidentes?</label>
+  <select id="historial">
+    <option value="ninguno">Ninguno</option>
+    <option value="hackeo">Hackeo</option>
+    <option value="suplantacion">Suplantación</option>
+    <option value="bloqueo">Bloqueo de cuenta</option>
+  </select>
+
+  <button onclick="enviar()">Iniciar diagnóstico</button>
+
+</div>
+
+<script>
+async function enviar() {
+  const payload = {
+    url: document.getElementById("instagram").value || "no-url",
+    nombre: document.getElementById("nombre").value,
+    tipo: document.getElementById("tipo").value,
+    mercado: document.getElementById("mercado").value,
+    redes: {
+      instagram: document.getElementById("instagram").value,
+      tiktok: document.getElementById("tiktok").value,
+      youtube: document.getElementById("youtube").value,
+      web: document.getElementById("web").value
+    },
+    monetiza: document.getElementById("monetiza").value,
+    seguidores: document.getElementById("seguidores").value,
+    tipo_monetizacion: document.getElementById("tipo_monetizacion").value,
+    historial: document.getElementById("historial").value
+  };
+
+  const res = await fetch("/analyze", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    alert("Error en el diagnóstico");
+    return;
+  }
+
+  window.location.href = data.report;
+}
+</script>
+
+</body>
+</html>

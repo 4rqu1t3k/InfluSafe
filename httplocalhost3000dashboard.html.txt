@@ -1,0 +1,346 @@
+http://localhost:3000/dashboard.html
+
+npm start
+
+
+npm install pdfkit
+npm install pdfkit
+
+node api/server.js
+dir api\pdf
+d
+__temp__.js
+CTRL + C
+rmdir /s /q noInvoke-RestMethod `
+  -Uri http://localhost:3000/analyze `
+  -Method POST `
+  -Headers @{ "Content-Type" = "application/json" } `
+  -Body '{
+    "url": "https://instagram.com/test",
+    "nombre": "Prueba Backend",
+    "instagram": "https://instagram.com/test"
+  }'
+de_modules
+del package-lock.json
+npm install
+npm start
+console.log("🔥 SERVER.JS REAL EJECUTÁNDOSE 🔥");
+
+
+Invoke-RestMethod `
+  -Uri http://localhost:3000/analyze `
+  -Method POST `
+  -Headers @{ "Content-Type" = "application/json" } `
+  -Body '{ "nombre": "Prueba Backend", "instagram": "https://instagram.com/test" }'
+
+rmdir node_modules -Recurse -Force
+del package-lock.json
+npm install
+
+
+netstat -ano | findstr :3000
+
+SUCCESS: The process with PID 12345 has been terminated.
+taskkill /PID 14108 /F
+
+taskkill /F /IM node.exe
+
+taskkill /PID 6756 /F
+
+Invoke-RestMethod `
+  -Uri http://localhost:3000/analyze `
+  -Method POST `
+  -Headers @{ "Content-Type" = "application/json" } `
+  -Body '{
+    "url": "https://instagram.com/test",
+    "nombre": "Prueba Backend",
+    "instagram": "https://instagram.com/test"
+  }'
+
+
+Invoke-RestMethod `
+  -Uri http://localhost:3000/analyze `
+  -Method POST `
+  -Headers @{ "Content-Type" = "application/json" } `
+  -Body '{
+    "url": "https://instagram.com/test",
+    "nombre": "Prueba InfluSafe"
+  }'
+
+
+
+
+
+
+EADDRINUSE: address already in use :::3000
+
+ d
+
+
+analyze_v2.js
+
+
+Invoke-RestMethod `
+  -Uri http://localhost:3000/analyze `
+  -Method POST `
+  -Headers @{ "Content-Type" = "application/json" } `
+  -Body '{
+    "url": "https://instagram.com/test",
+    "nombre": "Prueba InfluSafe"
+  }'
+
+
+
+} catch (error) {
+  console.error("🔥 ERROR ANALYZE REAL 🔥");
+  console.error(error);
+  res.status(500).json({
+    error: "Error interno InfluSafe",
+    detail: error.message,
+    stack: error.stack
+  });
+}
+
+
+
+
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+
+console.log("🔥 SERVER.JS REAL EJECUTÁNDOSE 🔥");
+
+// Motor de análisis
+const analyzeV2 = require("./analyze_v2.js");
+
+// Generador de PDF
+const generatePdf = require("./pdf/generatePdf.js");
+
+const app = express();
+const PORT = 3000;
+
+// Middlewares
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "../public")));
+
+// Endpoint principal
+app.post("/analyze", (req, res) => {
+  try {
+    const input = req.body;
+
+    if (!input.url) {
+      return res.status(400).json({ error: "URL requerida" });
+    }
+
+    const analysisResult = analyzeV2(input);
+
+    const reportPath = generatePdf({
+      ...analysisResult,
+      nombre: input.nombre || "No especificado"
+    });
+
+    res.json({
+      ok: true,
+      report: reportPath,
+      result: analysisResult
+    });
+  } catch (error) {
+    console.error("🔥 ERROR ANALYZE REAL 🔥");
+    console.error(error);
+
+    res.status(500).json({
+      error: "Error interno InfluSafe",
+      detail: error.message
+    });
+  }
+});
+
+// Arranque servidor
+app.listen(PORT, () => {
+  console.log(`InfluSafe API corriendo en http://localhost:${PORT}`);
+});
+
+
+taskkill /IM node.exe /F
+
+
+cd C:\Users\PERSONAL\Documents\InfluSafe
+node api/server.js
+
+
+Invoke-RestMethod `
+  -Uri http://localhost:3000/analyze `
+  -Method POST `
+  -Headers @{ "Content-Type" = "application/json" } `
+  -Body '{
+    "url": "https://instagram.com/test",
+    "nombre": "Prueba InfluSafe"
+  }'
+
+
+Invoke-RestMethod `
+-Uri http://localhost:3000/analyze `
+-Method POST `
+-Headers @{ "Content-Type" = "application/json" } `
+-Body '{
+  "url": "https://instagram.com/test",
+  "nombre": "Prueba InfluSafe"
+}'
+
+
+http://localhost:3000/
+
+
+
+Invoke-RestMethod `
+  -Uri http://localhost:3000/analyze `
+  -Method POST `
+  -Headers @{ "Content-Type" = "application/json" } `
+  -Body '{
+    "url": "https://instagram.com/test",
+    "nombre": "Cliente Prueba"
+  }'
+
+
+const fs = require("fs");
+const path = require("path");
+const PDFDocument = require("pdfkit");
+
+module.exports = function generatePdf(data) {
+  const reportsDir = path.join(__dirname, "../../public/reports");
+
+  if (!fs.existsSync(reportsDir)) {
+    fs.mkdirSync(reportsDir, { recursive: true });
+  }
+
+  const filename = `Dictamen_Presencia_Digital_${Date.now()}.pdf`;
+  const filePath = path.join(reportsDir, filename);
+
+  const doc = new PDFDocument({ margin: 55 });
+  doc.pipe(fs.createWriteStream(filePath));
+
+  // =========================
+  // PORTADA
+  // =========================
+  doc
+    .fontSize(20)
+    .text("DICTAMEN EJECUTIVO DE PRESENCIA DIGITAL", { align: "center" })
+    .moveDown(2);
+
+  doc.fontSize(12).text("Cliente evaluado:", { continued: true }).font("Helvetica-Bold")
+    .text(` ${data.nombre || "No especificado"}`);
+  doc.font("Helvetica").moveDown();
+
+  doc.text(`Fecha del dictamen: ${data.fecha}`);
+  doc.text("Nivel del dictamen: Profesional / Ejecutivo (65k)");
+  doc.moveDown(3);
+
+  // =========================
+  // RESUMEN EJECUTIVO
+  // =========================
+  doc.fontSize(14).text("1. Resumen Ejecutivo", { underline: true });
+  doc.moveDown(0.5);
+
+  doc.fontSize(11).text(
+    "El presente dictamen ejecutivo evalúa la presencia digital del perfil analizado desde una perspectiva preventiva, estratégica y de riesgo. El objetivo es identificar vulnerabilidades, escenarios de exposición y oportunidades de fortalecimiento digital."
+  );
+
+  doc.moveDown(0.5);
+  doc.text(`Resultado global del análisis: ${data.global_score}/100.`);
+  doc.text(data.resumen);
+  doc.moveDown(2);
+
+  // =========================
+  // METODOLOGÍA
+  // =========================
+  doc.fontSize(14).text("2. Alcance y Metodología", { underline: true });
+  doc.moveDown(0.5);
+
+  doc.fontSize(11).text(
+    "La evaluación se realizó mediante análisis automatizado preventivo, revisión de información declarada y criterios de riesgo digital utilizados en procesos de protección de marca, reputación y activos digitales."
+  );
+
+  doc.moveDown(0.5);
+  doc.text(
+    "Este dictamen no sustituye auditorías legales o técnicas profundas, pero permite una toma de decisiones informada sobre riesgos y acciones prioritarias."
+  );
+  doc.moveDown(2);
+
+  // =========================
+  // ANÁLISIS DETALLADO
+  // =========================
+  doc.fontSize(14).text("3. Análisis Integral de Riesgos", { underline: true });
+  doc.moveDown();
+
+  data.checks.forEach((c, index) => {
+    doc.fontSize(12).font("Helvetica-Bold")
+      .text(`${index + 1}. ${c.area} — ${c.item}`);
+    doc.font("Helvetica").moveDown(0.3);
+
+    doc.fontSize(11).text(`Propósito: ${c.purpose}`);
+    doc.text(`Estado identificado: ${c.status}`);
+    doc.text(`Nivel de riesgo: ${c.risk}`);
+    doc.text(`Impacto potencial: ${c.consequence}`);
+    doc.text(`Recomendación estratégica: ${c.recommendation}`);
+    doc.text(`Fuente del análisis: ${c.source}`);
+    doc.moveDown();
+  });
+
+  // =========================
+  // IMPACTO ECONÓMICO
+  // =========================
+  doc.fontSize(14).text("4. Impacto Económico Potencial", { underline: true });
+  doc.moveDown(0.5);
+
+  doc.fontSize(11).text(
+    "El impacto económico derivado de riesgos digitales no atendidos puede manifestarse en pérdida de ingresos, cancelación de contratos, afectación a la reputación, costos legales y recuperación de identidad."
+  );
+
+  doc.moveDown(0.5);
+  doc.text(`Pérdida potencial estimada: ${data.impacto_economico.perdida}`);
+  doc.text(`Beneficio al corregir: ${data.impacto_economico.ganancia}`);
+  doc.text(`Criterio de estimación: ${data.impacto_economico.metodologia}`);
+  doc.moveDown(2);
+
+  // =========================
+  // ESCENARIOS
+  // =========================
+  doc.fontSize(14).text("5. Escenarios de Decisión", { underline: true });
+  doc.moveDown(0.5);
+
+  doc.fontSize(11).text("Escenario A — No actuar:");
+  doc.text(
+    "Incremento progresivo del riesgo, mayor exposición a incidentes y pérdida de control sobre la presencia digital."
+  );
+  doc.moveDown(0.5);
+
+  doc.text("Escenario B — Actuar y blindar:");
+  doc.text(
+    "Reducción del riesgo, mayor control reputacional, fortalecimiento de confianza y continuidad operativa."
+  );
+  doc.moveDown(2);
+
+  // =========================
+  // MONITOREO
+  // =========================
+  doc.fontSize(14).text("6. Monitoreo Recomendado", { underline: true });
+  doc.moveDown(0.5);
+
+  doc.fontSize(11).text(
+    "Se recomienda un esquema de monitoreo continuo que permita detectar cambios, amenazas emergentes y nuevos vectores de riesgo, así como evaluar periódicamente la postura digital del perfil."
+  );
+  doc.moveDown(2);
+
+  // =========================
+  // NOTA LEGAL
+  // =========================
+  doc.fontSize(9).text(
+    "Este dictamen tiene carácter informativo y preventivo. La información aquí presentada se basa en datos disponibles al momento del análisis y en criterios profesionales de evaluación de riesgo digital.",
+    { align: "justify" }
+  );
+
+  doc.end();
+
+  return `/reports/${filename}`;
+};
