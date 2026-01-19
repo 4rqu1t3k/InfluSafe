@@ -1,6 +1,6 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18238918.svg)](https://doi.org/10.5281/zenodo.18238918)
 
-# Influsafe®
+# Influsafe® Defense Grid v6.0
 
 Digital Exposure & Identity Risk System
 
