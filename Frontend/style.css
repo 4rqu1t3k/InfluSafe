@@ -1,0 +1,80 @@
+body {
+    background-color: #020202;
+    background-image: radial-gradient(circleAt 50% 50%, #111 0%, #000 100%);
+    color: #00ff41;
+    font-family: 'Share Tech Mono', monospace;
+    display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0;
+}
+
+.main-wrapper {
+    width: 600px;
+    background: rgba(10, 15, 10, 0.95);
+    border: 1px solid #333;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.05);
+}
+
+header {
+    border-bottom: 2px solid #00ff41; padding-bottom: 15px; margin-bottom: 25px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.section-title {
+    color: #666; font-size: 0.8rem; margin-top: 15px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* INPUTS TÉCNICOS */
+.cyber-input, .cyber-select {
+    width: 100%; background: #050505; border: 1px solid #333; color: #fff; padding: 12px;
+    font-family: inherit; font-size: 1rem; box-sizing: border-box;
+}
+.cyber-select { cursor: pointer; }
+.cyber-input:focus, .cyber-select:focus { border-color: #00ff41; outline: none; box-shadow: 0 0 8px rgba(0,255,65,0.2); }
+
+.grid-inputs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+
+.input-group {
+    display: flex; align-items: center; border: 1px solid #333; background: #050505; padding: 5px 10px;
+}
+.input-group i { color: #444; width: 20px; text-align: center; }
+.input-group input {
+    background: transparent; border: none; color: #ddd; width: 100%; padding: 5px; outline: none; font-family: inherit;
+}
+.input-group:focus-within { border-color: #00ff41; }
+.input-group:focus-within i { color: #00ff41; }
+
+button {
+    width: 100%; background: #00ff41; color: #000; font-weight: bold; border: none; padding: 15px;
+    margin-top: 20px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+}
+button:hover { background: #00cc33; box-shadow: 0 0 15px rgba(0,255,65,0.4); }
+
+/* ANIMACIONES */
+.hidden { display: none; }
+.scan-overlay { text-align: center; margin-bottom: 30px; }
+.scan-text { color: #fff; margin: 0; font-size: 1.1rem; }
+.scan-subtext { color: #00ff41; font-size: 0.9rem; margin-top: 5px; animation: blink 1s infinite; }
+
+/* LOGOS SCAN */
+.logos-grid { display: flex; justify-content: center; gap: 30px; margin-top: 40px; }
+.logo-scan { font-size: 3rem; color: #333; animation: pulseScan 1s infinite alternate; }
+.logo-scan.alert { animation: pulseAlert 0.5s infinite; color: #300; }
+
+@keyframes pulseScan { from { color: #333; text-shadow: none; } to { color: #00ff41; text-shadow: 0 0 10px #00ff41; } }
+@keyframes pulseAlert { from { color: #500; } to { color: red; text-shadow: 0 0 15px red; } }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* MUNDO 3D SIMPLIFICADO */
+.scene { width: 150px; height: 150px; margin: 0 auto; perspective: 800px; }
+.globe { width: 100%; height: 100%; transform-style: preserve-3d; animation: spinGlobe 6s linear infinite; position: relative; }
+.circle-h, .circle-v { position: absolute; width: 100%; height: 100%; border: 1px solid rgba(0,255,65,0.3); border-radius: 50%; }
+.circle-v { transform: rotateY(90deg); }
+@keyframes spinGlobe { to { transform: rotateY(360deg) rotateX(20deg); } }
+
+/* FINAL */
+.success-box { border: 1px solid #00ff41; background: rgba(0,255,65,0.05); padding: 20px; display: flex; align-items: center; gap: 20px; }
+.icon-box i { font-size: 2.5rem; color: #00ff41; }
+.btn-secondary { background: transparent; border: 1px solid #555; color: #888; margin-top: 10px; }
+.btn-secondary:hover { border-color: #fff; color: #fff; background: transparent; box-shadow: none; }

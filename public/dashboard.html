@@ -179,7 +179,7 @@
 <script>
 async function enviar() {
   const payload = {
-    url: document.getElementById("instagram").value || "no-url",
+    url: document.getElementById("web").value || "no-url",
     nombre: document.getElementById("nombre").value,
     tipo: document.getElementById("tipo").value,
     mercado: document.getElementById("mercado").value,
@@ -208,7 +208,8 @@ async function enviar() {
     return;
   }
 
-  window.location.href = data.report;
+  localStorage.setItem('analysisResults', JSON.stringify(data));
+  window.location.href = 'results.html';
 }
 </script>
 

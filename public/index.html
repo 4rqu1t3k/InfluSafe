@@ -1,168 +1,122 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>InfluSafe — Diagnóstico de Presencia Digital</title>
-
-  <style>
-    body {
-      background: #0b0f0e;
-      color: #d9ffe9;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .container {
-      max-width: 520px;
-      margin: 60px auto;
-    }
-
-    h1 {
-      color: #00ff88;
-      font-size: 22px;
-      margin-bottom: 25px;
-    }
-
-    h3 {
-      margin-top: 25px;
-      color: #00ff88;
-      font-size: 14px;
-    }
-
-    input {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-      background: #0f1614;
-      border: 1px solid #1f3b2f;
-      color: #d9ffe9;
-      font-size: 13px;
-    }
-
-    .hint {
-      font-size: 12px;
-      opacity: 0.7;
-      margin-bottom: 10px;
-    }
-
-    .legal {
-      margin-top: 25px;
-      text-align: center;
-      font-size: 12px;
-      opacity: 0.85;
-    }
-
-    .legal label {
-      display: block;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-
-    button#startAnalysis {
-      margin-top: 25px;
-      width: 100%;
-      background: transparent;
-      border: 1px solid #00ff88;
-      color: #00ff88;
-      padding: 10px;
-      letter-spacing: 1px;
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    button#startAnalysis:hover {
-      box-shadow: 0 0 10px rgba(0,255,136,0.6);
-      background: rgba(0,255,136,0.05);
-    }
-
-    button:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=2.0">
+    <title>Influsafe® Dashboard</title>
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #161b22;
+            padding: 2rem;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+        h1 { color: #58a6ff; text-align: center; margin-bottom: 20px; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: white;
+            border-radius: 5px;
+            box-sizing: border-box; 
+        }
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background: #238636;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button:hover { background: #2ea043; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        #status { margin-top: 15px; text-align: center; font-size: 14px; min-height: 20px; }
+        .success { color: #3fb950; }
+        .error { color: #f85149; }
+        .loader { display: none; color: #58a6ff; }
+    </style>
 </head>
-
 <body>
 
-  <section class="container">
+<div class="container">
+    <h1>Influsafe® <span style="font-size:0.5em">v1.0</span></h1>
+    
+    <label for="target">Objetivo (Usuario):</label>
+    <input type="text" id="target" placeholder="Ej: Perfil">
 
-    <h1>InfluSafe — Diagnóstico de Presencia Digital</h1>
+    <label for="type">Tipo de Perfil:</label>
+    <select id="type">
+        <option value="influencer">Influencer / Creador</option>
+        <option value="politico">Político / Figura Pública</option>
+        <option value="marca">Marca / Empresa</option>
+        <option value="vip">VIP / Alto Perfil</option>
+    </select>
 
-    <h3>Identificación</h3>
-    <input id="nombre" type="text" placeholder="Nombre / Marca / Influencer" />
-    <input id="url" type="text" placeholder="Sitio web o red principal (ej. Instagram)" />
+    <button onclick="analizar()" id="btnAnalizar">INICIAR ESCANEO</button>
 
-    <h3>Redes sociales (opcionales)</h3>
-    <p class="hint">Completa solo las redes que apliquen.</p>
+    <div id="status"></div>
+</div>
 
-    <input id="instagram" type="text" placeholder="Instagram" />
-    <input id="tiktok" type="text" placeholder="TikTok" />
-    <input id="youtube" type="text" placeholder="YouTube" />
-    <input id="twitter" type="text" placeholder="X / Twitter" />
-    <input id="facebook" type="text" placeholder="Facebook" />
-    <input id="whatsapp" type="text" placeholder="WhatsApp (link o número)" />
-    <input id="linkedin" type="text" placeholder="LinkedIn" />
+<script>
+    async function analizar() {
+        const target = document.getElementById('target').value;
+        const type = document.getElementById('type').value;
+        const btn = document.getElementById('btnAnalizar');
+        const status = document.getElementById('status');
 
-    <div class="legal">
-      <p>
-        Este diagnóstico se basa exclusivamente en información pública disponible en internet.
-        Los resultados son estimaciones técnicas y no representan garantías ni afirmaciones legales.
-      </p>
+        if (!target) {
+            status.innerHTML = "<span class='error'>⚠ Escribe un nombre de usuario</span>";
+            return;
+        }
 
-      <label>
-        <input type="checkbox" id="accept" />
-        Acepto y deseo iniciar el diagnóstico
-      </label>
-    </div>
+        // Interfaz cargando
+        btn.disabled = true;
+        btn.innerText = "ANALIZANDO CON IA...";
+        status.innerHTML = "<span class='loader'>📡 Conectando con satélite...</span>";
 
-    <button id="startAnalysis" disabled>
-      INICIAR DIAGNÓSTICO
-    </button>
+        try {
+            const response = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ target, type })
+            });
 
-  </section>
+            const data = await response.json();
 
-  <script>
-    const acceptCheckbox = document.getElementById("accept");
-    const button = document.getElementById("startAnalysis");
+            if (response.ok) {
+                status.innerHTML = `<span class='success'>✅ ¡Análisis Completado!</span><br><br>
+                El PDF se ha generado en la carpeta 'reports'.`;
+            } else {
+                throw new Error(data.error || "Error desconocido");
+            }
 
-    acceptCheckbox.addEventListener("change", () => {
-      button.disabled = !acceptCheckbox.checked;
-    });
-
-    button.addEventListener("click", async () => {
-
-      const payload = {
-        nombre: document.getElementById("nombre").value || null,
-        url: document.getElementById("url").value || null,
-
-        instagram: document.getElementById("instagram").value || null,
-        tiktok: document.getElementById("tiktok").value || null,
-        youtube: document.getElementById("youtube").value || null,
-        twitter: document.getElementById("twitter").value || null,
-        facebook: document.getElementById("facebook").value || null,
-        whatsapp: document.getElementById("whatsapp").value || null,
-        linkedin: document.getElementById("linkedin").value || null
-      };
-
-      // Regla mínima de identificación
-      if (!payload.url && !payload.instagram && !payload.tiktok) {
-        alert("Ingresa al menos un punto de identificación.");
-        return;
-      }
-
-      const response = await fetch("/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      const result = await response.json();
-      console.log("Resultado InfluSafe:", result);
-
-      alert("Diagnóstico ejecutado. Revisa la consola o el reporte generado.");
-    });
-  </script>
+        } catch (error) {
+            status.innerHTML = `<span class='error'>❌ Error: ${error.message}</span>`;
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "INICIAR ESCANEO";
+        }
+    }
+</script>
 
 </body>
 </html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfluSafe v6.0 - Cyber Defense System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <header>
+            <div class="brand">
+                <i class="fas fa-shield-alt"></i> INFLUSAFE <span class="version">DEFENSE_GRID</span>
+            </div>
+            <div class="status-indicator">SYSTEM READY</div>
+        </header>
+
+        <div id="input-area" class="dashboard-panel">
+            
+            <div class="section-title">>> 1. DATOS DEL OBJETIVO</div>
+            <div class="input-row">
+                <input type="text" id="nombre" placeholder="Nombre del Objetivo..." class="cyber-input full-width">
+            </div>
+            <div class="input-row">
+                <select id="tipo-perfil" class="cyber-select">
+                    <option value="" disabled selected>Seleccione Perfil...</option>
+                    <option value="PERSONA">Persona Normal</option>
+                    <option value="INFLUENCER">Influencer / Creador</option>
+                    <option value="EMPRESARIO">Empresario / CEO</option>
+                    <option value="MARCA">Marca / Negocio</option>
+                    <option value="POLITICO">Político / Figura Pública</option>
+                    <option value="EJECUTIVO">Alto Ejecutivo</option>
+                </select>
+            </div>
+
+            <div class="section-title">>> 2. VECTOR DE SUPERFICIE (Redes y Web)</div>
+            <div class="grid-inputs">
+                <div class="input-group">
+                    <i class="fas fa-globe"></i>
+                    <input type="text" id="red-web" placeholder="Sitio Web (www...)">
+                </div>
+                <div class="input-group">
+                    <i class="fab fa-whatsapp"></i>
+                    <input type="text" id="red-whatsapp" placeholder="WhatsApp (Número)">
+                </div>
+                <div class="input-group">
+                    <i class="fab fa-instagram"></i>
+                    <input type="text" id="red-instagram" placeholder="Instagram User">
+                </div>
+                <div class="input-group">
+                    <i class="fab fa-facebook-f"></i>
+                    <input type="text" id="red-facebook" placeholder="Facebook User">
+                </div>
+                <div class="input-group">
+                    <i class="fab fa-linkedin-in"></i>
+                    <input type="text" id="red-linkedin" placeholder="LinkedIn User">
+                </div>
+                <div class="input-group">
+                    <i class="fab fa-tiktok"></i>
+                    <input type="text" id="red-tiktok" placeholder="TikTok User">
+                </div>
+            </div>
+
+            <button id="btn-iniciar">EJECUTAR PROTOCOLO DE BLINDAJE</button>
+        </div>
+
+        <div id="container-globo" class="hidden">
+            <div class="scan-overlay">
+                <p class="scan-text">>> RASTREANDO HUELLA GLOBAL...</p>
+                <p class="scan-subtext" id="text-localizando">Iniciando satélites...</p>
+                <div class="scan-line"></div>
+            </div>
+            <div class="scene">
+                <div class="globe">
+                    <div class="circle-h"></div>
+                    <div class="circle-v"></div>
+                    <div class="city mexico"></div>
+                    <div class="city ny"></div>
+                    <div class="city tokyo"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="container-logos" class="hidden">
+            <div class="scan-overlay">
+                <p class="scan-text">>> ANALIZANDO VULNERABILIDADES...</p>
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+            </div>
+            <div class="logos-grid">
+                <i class="fab fa-instagram logo-scan"></i>
+                <i class="fab fa-whatsapp logo-scan"></i>
+                <i class="fas fa-globe logo-scan"></i>
+                <i class="fas fa-user-secret logo-scan alert"></i> </div>
+        </div>
+
+        <div id="container-mensaje-final" class="hidden">
+            <div class="success-box">
+                <div class="icon-box"><i class="fas fa-file-shield"></i></div>
+                <div>
+                    <h3>DICTAMEN PROFESIONAL LISTO</h3>
+                    <p>Archivo generado: <span class="highlight">...</span></p>
+                    <p class="small">Revise la carpeta /Reports</p>
+                </div>
+            </div>
+            <button onclick="location.reload()" class="btn-secondary">NUEVO ANÁLISIS</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
